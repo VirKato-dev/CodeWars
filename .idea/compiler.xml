@@ -6,7 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="dmdev" />
         <module name="stepik" />
+        <module name="leetcode" />
+        <module name="javarush" />
+        <module name="MyPractice" />
+        <module name="Parse" />
       </profile>
     </annotationProcessing>
   </component>

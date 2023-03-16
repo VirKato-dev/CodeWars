@@ -10,6 +10,12 @@
     <packaging>pom</packaging>
     <modules>
         <module>stepik</module>
+        <module>dmdev</module>
+        <module>javarush</module>
+        <module>MyPractice</module>
+        <module>Parse</module>
+        <module>VkApi</module>
+        <module>leetcode</module>
     </modules>
 
     <properties>
