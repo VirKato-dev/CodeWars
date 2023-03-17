@@ -1,6 +1,9 @@
 package codewars.composite.sorted.iterator;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 //todo не решено
 
@@ -28,33 +31,49 @@ public class CompositeSortedIteratorDemo {
 class CompositeSortedIterator<T> implements Iterator<T> {
     private final Iterator<T>[] iterators;
     private final Comparator<? super T> cmp;
-    private final List<T> values;
+    private final LinkedList<T> data;
+    private final LinkedList<Iterator<T>> first;
 
     @SafeVarargs
     public CompositeSortedIterator(Comparator<? super T> cmp, Iterator<T>... iterators) {
         this.cmp = cmp;
         this.iterators = iterators;
-        this.values = new ArrayList<>();
+        this.data = new LinkedList<>();
+        this.first = new LinkedList<>();
     }
 
     @Override
     public boolean hasNext() {
         for (Iterator<T> it : iterators) {
-            if (it.hasNext()) {
-                values.add(0, it.next());
-                values.sort(cmp);
+            if (!first.contains(it) && it.hasNext()) {
+                T val = it.next();
+                if (data.size() > 0) {
+                    boolean succ = false;
+                    for (int j = 0; j < data.size(); j++) {
+                        if (cmp.compare(val, data.get(j)) < 0) {
+                            data.add(j, val);
+                            first.add(j, it);
+                            succ = true;
+                            break;
+                        }
+                    }
+                    if (!succ) {
+                        data.addLast(val);
+                        first.addLast(it);
+                    }
+                } else {
+                    data.addFirst(val);
+                    first.addFirst(it);
+                }
             }
         }
-        return !values.isEmpty();
+        return !data.isEmpty();
     }
 
     @Override
     public T next() {
-        if (!values.isEmpty()) {
-            T val = values.get(0);
-            values.remove(0);
-            return val;
-        }
-        throw new NoSuchElementException();
+        if (data.isEmpty()) throw new NoSuchElementException();
+        first.removeFirst();
+        return data.removeFirst();
     }
 }
