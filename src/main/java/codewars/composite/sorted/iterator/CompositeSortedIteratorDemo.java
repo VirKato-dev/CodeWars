@@ -62,22 +62,12 @@ class CompositeSortedIterator<T> implements Iterator<T> {
 
     @Override
     public boolean hasNext() {
-        for (Itr<T> it : all) {
-            if (!it.uses && it.hasNext()) {
-                T val = it.next();
-                for (int j = 0; j < sorted.size(); j++) {
-                    if (cmp.compare(val, sorted.get(j).val) < 0) {
-                        sorted.add(j, it);
-                        it.uses = true;
-                        break;
-                    }
-                }
-                if (!it.uses) {
-                    sorted.add(it);
-                    it.uses = true;
-                }
-            }
+        for (Itr<T> it : all) if (!it.uses && it.hasNext()) {
+            it.next();
+            it.uses = true;
+            sorted.add(it);
         }
+        sorted.sort((o1, o2) -> cmp.compare(o1.val, o2.val));
         return !sorted.isEmpty();
     }
 
