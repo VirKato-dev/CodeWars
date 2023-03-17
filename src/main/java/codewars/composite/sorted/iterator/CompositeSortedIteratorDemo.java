@@ -67,7 +67,7 @@ class CompositeSortedIterator<T> implements Iterator<T> {
                 it.uses = true;
             }
         all.sort((o1, o2) -> o1.val == null ? 1 : o2.val == null ? -1 : cmp.compare(o1.val, o2.val));
-        return all.stream().anyMatch(i -> i.uses);
+        return !all.isEmpty() && all.get(0).val != null;
     }
 
     @Override
