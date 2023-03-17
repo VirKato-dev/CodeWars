@@ -30,9 +30,7 @@ public class CompositeSortedIteratorDemo {
 class CompositeSortedIterator<T> implements Iterator<T> {
     private final Comparator<? super T> cmp;
     private final Iterator<T>[] all;
-    private final boolean[] uses;
     private final Object[] val;
-    private int min = -1;
 
 
     @SafeVarargs
@@ -40,31 +38,35 @@ class CompositeSortedIterator<T> implements Iterator<T> {
         this.cmp = cmp;
         this.all = iterators;
         this.val = new Object[iterators.length];
-        this.uses = new boolean[iterators.length];
     }
 
     @Override
     public boolean hasNext() {
-        min = -1;
+        boolean has = false;
         for (int j = 0; j < all.length; j++) {
-            if (!uses[j] && all[j].hasNext()) {
-                val[j] = all[j].next();
-                uses[j] = true;
+            if (val[j] != null || all[j].hasNext()) {
+                has = true;
+                break;
             }
-            if (uses[j]) {
+        }
+        return has;
+    }
+
+    @Override
+    public T next() {
+        if (!hasNext()) throw new NoSuchElementException();
+        int min = -1;
+        for (int j = 0; j < all.length; j++) {
+            if (val[j] == null && all[j].hasNext()) {
+                val[j] = all[j].next();
+            }
+            if (val[j] != null) {
                 min = min >= 0
                         ? cmp.compare((T)val[j], (T)val[min]) < 0 ? j : min
                         : j;
             }
         }
-        return min >= 0;
-    }
-
-    @Override
-    public T next() {
-        if (min < 0) throw new NoSuchElementException();
-        T v = (T) val[min];
-        uses[min] = false;
+        T v = (T)val[min];
         val[min] = null;
         return v;
     }
