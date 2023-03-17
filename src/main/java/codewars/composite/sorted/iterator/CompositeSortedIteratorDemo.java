@@ -28,7 +28,6 @@ public class CompositeSortedIteratorDemo {
 class CompositeSortedIterator<T> implements Iterator<T> {
     private final Comparator<? super T> cmp;
     private final List<Itr<T>> all = new ArrayList<>();
-    private final List<Itr<T>> sorted = new ArrayList<>();
 
     /**
      * Decorator
@@ -62,20 +61,22 @@ class CompositeSortedIterator<T> implements Iterator<T> {
 
     @Override
     public boolean hasNext() {
-        for (Itr<T> it : all) if (!it.uses && it.hasNext()) {
-            it.next();
-            it.uses = true;
-            sorted.add(it);
-        }
-        sorted.sort((o1, o2) -> cmp.compare(o1.val, o2.val));
-        return !sorted.isEmpty();
+        for (Itr<T> it : all)
+            if (!it.uses && it.hasNext()) {
+                it.next();
+                it.uses = true;
+            }
+        all.sort((o1, o2) -> o1.val == null ? 1 : o2.val == null ? -1 : cmp.compare(o1.val, o2.val));
+        return all.stream().anyMatch(i -> i.uses);
     }
 
     @Override
     public T next() {
-        if (sorted.isEmpty()) throw new NoSuchElementException();
-        Itr<T> it = sorted.remove(0);
+        if (!hasNext()) throw new NoSuchElementException();
+        Itr<T> it = all.get(0);
+        T v = it.val;
         it.uses = false;
-        return it.val;
+        it.val = null;
+        return v;
     }
 }
