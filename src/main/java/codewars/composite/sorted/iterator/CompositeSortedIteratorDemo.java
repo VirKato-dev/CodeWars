@@ -1,6 +1,9 @@
 package codewars.composite.sorted.iterator;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 //todo не решено
 
@@ -27,14 +30,14 @@ public class CompositeSortedIteratorDemo {
 
 class CompositeSortedIterator<T> implements Iterator<T> {
     private final Comparator<? super T> cmp;
-    private final List<Itr<T>> all = new ArrayList<>();
+    private final Iterator<T>[] all;
 
     /**
      * Decorator
      */
     static class Itr<T> implements Iterator<T> {
-        boolean uses = false;
-        T val = null;
+        boolean uses;
+        T val;
         private final Iterator<T> it;
 
         public Itr(Iterator<T> i) {
@@ -56,24 +59,29 @@ class CompositeSortedIterator<T> implements Iterator<T> {
     @SafeVarargs
     public CompositeSortedIterator(Comparator<? super T> cmp, Iterator<T>... iterators) {
         this.cmp = cmp;
-        for (Iterator<T> i : iterators) all.add(new Itr<>(i));
+        this.all = iterators;
+        for (int j = 0; j < iterators.length; j++)
+            iterators[j] = new Itr<>(iterators[j]);
     }
 
     @Override
     public boolean hasNext() {
-        for (Itr<T> it : all)
-            if (!it.uses && it.hasNext()) {
+        for (Iterator<T> it : all)
+            if (!((Itr<T>) it).uses && it.hasNext()) {
                 it.next();
-                it.uses = true;
+                ((Itr<T>) it).uses = true;
             }
-        all.sort((o1, o2) -> o1.val == null ? 1 : o2.val == null ? -1 : cmp.compare(o1.val, o2.val));
-        return !all.isEmpty() && all.get(0).val != null;
+        Arrays.sort(all, (o1, o2) ->
+                ((Itr<T>) o1).val == null ? 1
+                        : ((Itr<T>) o2).val == null ? -1
+                        : cmp.compare(((Itr<T>) o1).val, ((Itr<T>) o2).val));
+        return all.length > 0 && ((Itr<T>) all[0]).val != null;
     }
 
     @Override
     public T next() {
-        if (!hasNext()) throw new NoSuchElementException();
-        Itr<T> it = all.get(0);
+        if (all.length == 0 || ((Itr<T>) all[0]).val == null) throw new NoSuchElementException();
+        Itr<T> it = (Itr<T>) all[0];
         T v = it.val;
         it.uses = false;
         it.val = null;
