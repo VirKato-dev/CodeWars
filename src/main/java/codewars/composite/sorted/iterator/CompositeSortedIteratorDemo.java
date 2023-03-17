@@ -30,65 +30,42 @@ public class CompositeSortedIteratorDemo {
 class CompositeSortedIterator<T> implements Iterator<T> {
     private final Comparator<? super T> cmp;
     private final Iterator<T>[] all;
-    private final Itr<T> EMPTY = new Itr<>(null);
-    private Itr<T> min = EMPTY;
+    private final boolean[] uses;
+    private final Object[] val;
+    private int min = -1;
 
-    /**
-     * Decorator
-     */
-    static class Itr<T> implements Iterator<T> {
-        boolean uses;
-        T val;
-        private final Iterator<T> it;
-
-        public Itr(Iterator<T> i) {
-            it = i;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return it.hasNext();
-        }
-
-        @Override
-        public T next() {
-            val = it.next();
-            return val;
-        }
-    }
 
     @SafeVarargs
     public CompositeSortedIterator(Comparator<? super T> cmp, Iterator<T>... iterators) {
         this.cmp = cmp;
         this.all = iterators;
-        for (int j = 0; j < iterators.length; j++)
-            iterators[j] = new Itr<>(iterators[j]);
-        hasNext();
+        this.val = new Object[iterators.length];
+        this.uses = new boolean[iterators.length];
     }
 
     @Override
     public boolean hasNext() {
-        for (Iterator<T> i : all) {
-            Itr<T> it = (Itr<T>) i;
-            if (!it.uses && it.hasNext()) {
-                it.next();
-                it.uses = true;
+        min = -1;
+        for (int j = 0; j < all.length; j++) {
+            if (!uses[j] && all[j].hasNext()) {
+                val[j] = all[j].next();
+                uses[j] = true;
             }
-            if (it.uses) {
-                min = min.val != null
-                        ? cmp.compare(it.val, min.val) < 0 ? it : min
-                        : it;
+            if (uses[j]) {
+                min = min >= 0
+                        ? cmp.compare((T)val[j], (T)val[min]) < 0 ? j : min
+                        : j;
             }
         }
-        return min.val != null;
+        return min >= 0;
     }
 
     @Override
     public T next() {
-        if (min.val == null) throw new NoSuchElementException();
-        T v = min.val;
-        min.uses = false;
-        min.val = null;
+        if (min < 0) throw new NoSuchElementException();
+        T v = (T) val[min];
+        uses[min] = false;
+        val[min] = null;
         return v;
     }
 }
