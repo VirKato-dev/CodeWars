@@ -31,6 +31,8 @@ public class CompositeSortedIteratorDemo {
 class CompositeSortedIterator<T> implements Iterator<T> {
     private final Comparator<? super T> cmp;
     private final Iterator<T>[] all;
+    private final Itr<T> EMPTY = new Itr<>(null);
+    private Itr<T> min;
 
     /**
      * Decorator
@@ -62,29 +64,32 @@ class CompositeSortedIterator<T> implements Iterator<T> {
         this.all = iterators;
         for (int j = 0; j < iterators.length; j++)
             iterators[j] = new Itr<>(iterators[j]);
+        hasNext();
     }
 
     @Override
     public boolean hasNext() {
-        for (Iterator<T> it : all)
+        for (Iterator<T> it : all) {
             if (!((Itr<T>) it).uses && it.hasNext()) {
                 it.next();
                 ((Itr<T>) it).uses = true;
             }
-        Arrays.sort(all, (o1, o2) ->
-                ((Itr<T>) o1).val == null ? 1
-                        : ((Itr<T>) o2).val == null ? -1
-                        : cmp.compare(((Itr<T>) o1).val, ((Itr<T>) o2).val));
-        return all.length > 0 && ((Itr<T>) all[0]).val != null;
+        }
+        min = (Itr<T>) Arrays.stream(all)
+                .min((o1, o2) ->
+                        ((Itr<T>) o1).val == null ? 1
+                                : ((Itr<T>) o2).val == null ? -1
+                                : cmp.compare(((Itr<T>) o1).val, ((Itr<T>) o2).val))
+                .orElse(EMPTY);
+        return min.val != null;
     }
 
     @Override
     public T next() {
-        if (all.length == 0 || ((Itr<T>) all[0]).val == null) throw new NoSuchElementException();
-        Itr<T> it = (Itr<T>) all[0];
-        T v = it.val;
-        it.uses = false;
-        it.val = null;
+        if (min.val == null) throw new NoSuchElementException();
+        T v = min.val;
+        min.uses = false;
+        min.val = null;
         return v;
     }
 }
