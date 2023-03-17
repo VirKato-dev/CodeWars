@@ -29,7 +29,7 @@ class CompositeSortedIterator<T> implements Iterator<T> {
     private final Iterator<T>[] iterators;
     private final Comparator<? super T> cmp;
     private final Map<String, T> values = new HashMap<>();
-    private final Map<T, String> list = new HashMap<>();
+    T min;
 
     @SafeVarargs
     public CompositeSortedIterator(Comparator<? super T> cmp, Iterator<T>... iterators) {
@@ -52,20 +52,10 @@ class CompositeSortedIterator<T> implements Iterator<T> {
 
     @Override
     public T next() {
-        List<T> list = new ArrayList<>(values.values().stream().filter(Objects::nonNull).toList());
-        list.sort(cmp);
-        if (list.size() > 0) {
-            T val = list.get(0);
-            Iterator<Map.Entry<String, T>> i = values.entrySet().iterator();
-            while (i.hasNext()) {
-                T v = i.next().getValue();
-                if (v.equals(val)) {
-                    i.remove();
-                    break;
-                }
-            }
-            return val;
-        }
-        throw new NoSuchElementException();
+        Map.Entry<String, T> entry = values.entrySet().stream()
+                .min((o1, o2) -> cmp.compare(o1.getValue(), o2.getValue()))
+                .orElseThrow(NoSuchElementException::new);
+        values.remove(entry.getKey());
+        return entry.getValue();
     }
 }
