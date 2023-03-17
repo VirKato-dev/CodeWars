@@ -28,8 +28,11 @@ public class CompositeSortedIteratorDemo {
 class CompositeSortedIterator<T> implements Iterator<T> {
     private final Comparator<? super T> cmp;
     private final List<Itr<T>> all = new ArrayList<>();
-    private final LinkedList<Itr<T>> sorted;
+    private final List<Itr<T>> sorted = new ArrayList<>();
 
+    /**
+     * Decorator
+     */
     static class Itr<T> implements Iterator<T> {
         boolean uses = false;
         T val = null;
@@ -54,34 +57,23 @@ class CompositeSortedIterator<T> implements Iterator<T> {
     @SafeVarargs
     public CompositeSortedIterator(Comparator<? super T> cmp, Iterator<T>... iterators) {
         this.cmp = cmp;
-        this.sorted = new LinkedList<>();
-        for (Iterator<T> i : iterators) {
-            Itr<T> itr = new Itr<>(i);
-            all.add(itr);
-        }
+        for (Iterator<T> i : iterators) all.add(new Itr<>(i));
     }
 
     @Override
     public boolean hasNext() {
         for (Itr<T> it : all) {
             if (!it.uses && it.hasNext()) {
-                it.next();
-                if (sorted.size() > 0) {
-                    boolean succ = false;
-                    for (int j = 0; j < sorted.size(); j++) {
-                        if (cmp.compare(it.val, sorted.get(j).val) < 0) {
-                            sorted.add(j, it);
-                            it.uses = true;
-                            succ = true;
-                            break;
-                        }
-                    }
-                    if (!succ) {
-                        sorted.addLast(it);
+                T val = it.next();
+                for (int j = 0; j < sorted.size(); j++) {
+                    if (cmp.compare(val, sorted.get(j).val) < 0) {
+                        sorted.add(j, it);
                         it.uses = true;
+                        break;
                     }
-                } else {
-                    sorted.addFirst(it);
+                }
+                if (!it.uses) {
+                    sorted.add(it);
                     it.uses = true;
                 }
             }
@@ -92,7 +84,7 @@ class CompositeSortedIterator<T> implements Iterator<T> {
     @Override
     public T next() {
         if (sorted.isEmpty()) throw new NoSuchElementException();
-        Itr<T> it = sorted.removeFirst();
+        Itr<T> it = sorted.remove(0);
         it.uses = false;
         return it.val;
     }
