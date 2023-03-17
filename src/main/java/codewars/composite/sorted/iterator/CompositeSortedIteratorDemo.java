@@ -1,9 +1,6 @@
 package codewars.composite.sorted.iterator;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 //todo не решено
 
@@ -29,51 +26,74 @@ public class CompositeSortedIteratorDemo {
 
 
 class CompositeSortedIterator<T> implements Iterator<T> {
-    private final Iterator<T>[] iterators;
     private final Comparator<? super T> cmp;
-    private final LinkedList<T> data;
-    private final LinkedList<Iterator<T>> first;
+    private final List<Itr<T>> all = new ArrayList<>();
+    private final LinkedList<Itr<T>> sorted;
+
+    static class Itr<T> implements Iterator<T> {
+        boolean uses = false;
+        T val = null;
+        private final Iterator<T> it;
+
+        public Itr(Iterator<T> i) {
+            it = i;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return it.hasNext();
+        }
+
+        @Override
+        public T next() {
+            val = it.next();
+            return val;
+        }
+    }
 
     @SafeVarargs
     public CompositeSortedIterator(Comparator<? super T> cmp, Iterator<T>... iterators) {
         this.cmp = cmp;
-        this.iterators = iterators;
-        this.data = new LinkedList<>();
-        this.first = new LinkedList<>();
+        this.sorted = new LinkedList<>();
+        for (Iterator<T> i : iterators) {
+            Itr<T> itr = new Itr<>(i);
+            all.add(itr);
+        }
     }
 
     @Override
     public boolean hasNext() {
-        for (Iterator<T> it : iterators) {
-            if (!first.contains(it) && it.hasNext()) {
-                T val = it.next();
-                if (data.size() > 0) {
+        for (Itr<T> it : all) {
+            if (!it.uses && it.hasNext()) {
+                it.next();
+                if (sorted.size() > 0) {
                     boolean succ = false;
-                    for (int j = 0; j < data.size(); j++) {
-                        if (cmp.compare(val, data.get(j)) < 0) {
-                            data.add(j, val);
-                            first.add(j, it);
+                    for (int j = 0; j < sorted.size(); j++) {
+                        if (cmp.compare(it.val, sorted.get(j).val) < 0) {
+                            sorted.add(j, it);
+                            it.uses = true;
                             succ = true;
                             break;
                         }
                     }
                     if (!succ) {
-                        data.addLast(val);
-                        first.addLast(it);
+                        sorted.addLast(it);
+                        it.uses = true;
                     }
                 } else {
-                    data.addFirst(val);
-                    first.addFirst(it);
+                    sorted.addFirst(it);
+                    it.uses = true;
                 }
             }
         }
-        return !data.isEmpty();
+        return !sorted.isEmpty();
     }
 
     @Override
     public T next() {
-        if (data.isEmpty()) throw new NoSuchElementException();
-        first.removeFirst();
-        return data.removeFirst();
+        if (sorted.isEmpty()) throw new NoSuchElementException();
+        Itr<T> it = sorted.removeFirst();
+        it.uses = false;
+        return it.val;
     }
 }
