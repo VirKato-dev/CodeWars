@@ -1,6 +1,5 @@
 package codewars.composite.sorted.iterator;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -32,7 +31,7 @@ class CompositeSortedIterator<T> implements Iterator<T> {
     private final Comparator<? super T> cmp;
     private final Iterator<T>[] all;
     private final Itr<T> EMPTY = new Itr<>(null);
-    private Itr<T> min;
+    private Itr<T> min = EMPTY;
 
     /**
      * Decorator
@@ -69,18 +68,18 @@ class CompositeSortedIterator<T> implements Iterator<T> {
 
     @Override
     public boolean hasNext() {
-        for (Iterator<T> it : all) {
-            if (!((Itr<T>) it).uses && it.hasNext()) {
+        for (Iterator<T> i : all) {
+            Itr<T> it = (Itr<T>) i;
+            if (!it.uses && it.hasNext()) {
                 it.next();
-                ((Itr<T>) it).uses = true;
+                it.uses = true;
+            }
+            if (it.uses) {
+                min = min.val != null
+                        ? cmp.compare(it.val, min.val) < 0 ? it : min
+                        : it;
             }
         }
-        min = (Itr<T>) Arrays.stream(all)
-                .min((o1, o2) ->
-                        ((Itr<T>) o1).val == null ? 1
-                                : ((Itr<T>) o2).val == null ? -1
-                                : cmp.compare(((Itr<T>) o1).val, ((Itr<T>) o2).val))
-                .orElse(EMPTY);
         return min.val != null;
     }
 
