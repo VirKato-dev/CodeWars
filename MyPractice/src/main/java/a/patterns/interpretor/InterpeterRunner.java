@@ -1,5 +1,10 @@
 package a.patterns.interpretor;
 
+import a.patterns.interpretor.expression.AndExpression;
+import a.patterns.interpretor.expression.Expression;
+import a.patterns.interpretor.expression.OrExpression;
+import a.patterns.interpretor.expression.TerminalExpression;
+
 public class InterpeterRunner {
     public static void main(String[] args) {
         Expression<String> isJava = getJavaExpression();

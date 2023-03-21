@@ -1,7 +1,7 @@
-package a.patterns.strategy.model;
+package a.patterns.state.model;
 
-import a.patterns.strategy.action.fly.FlyWithWings;
-import a.patterns.strategy.action.quack.Quack;
+import a.patterns.state.strategy.fly.FlyWithWings;
+import a.patterns.state.strategy.quack.Quack;
 
 public class MallardDuck extends Duck {
     public MallardDuck() {

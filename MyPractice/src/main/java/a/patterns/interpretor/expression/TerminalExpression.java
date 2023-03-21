@@ -1,4 +1,4 @@
-package a.patterns.interpretor;
+package a.patterns.interpretor.expression;
 
 /**
  * Конечное выражение возвращающее результат проверки

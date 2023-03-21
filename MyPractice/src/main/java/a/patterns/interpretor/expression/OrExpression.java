@@ -1,4 +1,4 @@
-package a.patterns.interpretor;
+package a.patterns.interpretor.expression;
 
 /**
  * Достаточно одного true от любого выражения

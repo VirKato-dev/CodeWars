@@ -299,3 +299,14 @@
 /MyPractice/target/classes/a/patterns/interpretor/InterpeterRunner.class
 /MyPractice/target/classes/a/patterns/interpretor/OrExpression.class
 /MyPractice/target/classes/a/patterns/interpretor/TerminalExpression.class
+/MyPractice/target/classes/a/patterns/absfactory/factory/BakeryFactory.class
+/MyPractice/target/classes/a/patterns/absfactory/product/Bread.class
+/MyPractice/target/classes/a/patterns/absfactory/product/Cookie.class
+/MyPractice/target/classes/a/patterns/absfactory/factory/DodoFactory$1.class
+/MyPractice/target/classes/a/patterns/absfactory/factory/DodoFactory$2.class
+/MyPractice/target/classes/a/patterns/absfactory/factory/DodoFactory.class
+/MyPractice/target/classes/a/patterns/absfactory/factory/DokaFactory$1.class
+/MyPractice/target/classes/a/patterns/absfactory/factory/DokaFactory$2.class
+/MyPractice/target/classes/a/patterns/absfactory/factory/DokaFactory.class
+/MyPractice/target/classes/a/patterns/absfactory/product/Product.class
+/MyPractice/target/classes/a/patterns/absfactory/TestFactory.class

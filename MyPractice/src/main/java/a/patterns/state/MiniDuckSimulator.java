@@ -1,9 +1,9 @@
-package a.patterns.strategy;
+package a.patterns.state;
 
-import a.patterns.strategy.action.fly.FlyRocketPowered;
-import a.patterns.strategy.model.Duck;
-import a.patterns.strategy.model.MallardDuck;
-import a.patterns.strategy.model.ModelDuck;
+import a.patterns.state.strategy.fly.FlyRocketPowered;
+import a.patterns.state.model.Duck;
+import a.patterns.state.model.MallardDuck;
+import a.patterns.state.model.ModelDuck;
 
 public class MiniDuckSimulator {
     public static void main(String[] args) {

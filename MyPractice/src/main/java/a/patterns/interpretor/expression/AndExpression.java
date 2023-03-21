@@ -1,4 +1,4 @@
-package a.patterns.interpretor;
+package a.patterns.interpretor.expression;
 
 /**
  * Оба выражения должны вернуть true
