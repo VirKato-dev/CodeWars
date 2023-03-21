@@ -1,5 +1,10 @@
 package a.patterns.interpretor;
 
 public interface Expression<T> {
-    T interpret(Expression<T> expression);
+    /**
+     *
+     * @param context интерпретируемое
+     * @return результат интерпретации
+     */
+    boolean interpret(T context);
 }

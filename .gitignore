@@ -295,3 +295,7 @@
 /MyPractice/target/classes/a/patterns/observer/our/WeatherStation.class
 /MyPractice/target/classes/a/patterns/observer/standard/WeatherStation.class
 /MyPractice/target/classes/a/tasks/WithNull.class
+/MyPractice/target/classes/a/patterns/interpretor/AndExpression.class
+/MyPractice/target/classes/a/patterns/interpretor/InterpeterRunner.class
+/MyPractice/target/classes/a/patterns/interpretor/OrExpression.class
+/MyPractice/target/classes/a/patterns/interpretor/TerminalExpression.class
