@@ -1,5 +1,7 @@
 package http.socket.tcp;
 
+import http.socket.ServerProps;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
@@ -16,8 +18,8 @@ public class SocketRunner {
 //        var inetAddress = Inet4Address.getByName("goo.gl");
 //        var port = 80;
 //        var message = "Hello world!";
-        var inetAddress = Inet4Address.getByName("localhost");
-        var port = 7777;
+        var inetAddress = Inet4Address.getByName(ServerProps.HOST);
+        var port = ServerProps.PORT;
         var message = "Hello world!";
         try (var socket = new Socket(inetAddress, port);
              var os = new DataOutputStream(socket.getOutputStream());

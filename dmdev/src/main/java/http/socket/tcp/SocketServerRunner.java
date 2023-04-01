@@ -1,5 +1,7 @@
 package http.socket.tcp;
 
+import http.socket.ServerProps;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -8,7 +10,7 @@ import java.util.Scanner;
 
 public class SocketServerRunner {
     public static void main(String[] args) throws IOException {
-        try (var serverSocket = new ServerSocket(7777);
+        try (var serverSocket = new ServerSocket(ServerProps.PORT);
              var socket = serverSocket.accept();
              var scanner = new Scanner(System.in)) {
             var os = new DataOutputStream(socket.getOutputStream());
