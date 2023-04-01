@@ -1,12 +1,15 @@
 package a.streams;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 public class Test {
     public static void main(String[] args) {
+        Map<String, String> map = new HashMap<>();
+        map.put("one", ".");
+        map.merge("one", ".", (a,s) -> a + s);
+
         // ленивый стрим ничего не напечатает
         Stream.of(1, 2, 3, 4)
                 .filter(i -> i % 2 == 0)
@@ -28,5 +31,6 @@ public class Test {
                     return left;
                 }
         );
+
     }
 }

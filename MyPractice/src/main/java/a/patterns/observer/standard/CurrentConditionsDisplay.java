@@ -10,7 +10,7 @@ public class CurrentConditionsDisplay implements Observer, DisplayElement {
 
     /**
      * Объект элемента текущего состояния добавляется в качестве наблюдателя.
-     * @param observable
+     * @param observable субъект наблюдения
      */
     public CurrentConditionsDisplay(Observable observable) {
         this.observable = observable;
