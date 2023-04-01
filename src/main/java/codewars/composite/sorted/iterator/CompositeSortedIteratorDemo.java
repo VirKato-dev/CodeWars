@@ -27,25 +27,47 @@ public class CompositeSortedIteratorDemo {
 
 class CompositeSortedIterator<T> implements Iterator<T> {
     private final Iterator<T>[] all;
+    private final Map<T, Iterator<T>> last = new HashMap<>();
     private final Queue<T> queue;
 
     @SafeVarargs
     public CompositeSortedIterator(Comparator<? super T> cmp, Iterator<T>... iterators) {
         this.all = iterators;
         this.queue = new PriorityQueue<>(cmp);
+        fillFromAll();
     }
 
     @Override
     public boolean hasNext() {
-        for (Iterator<T> it : all) {
-            if (it.hasNext()) queue.add(it.next());
-        }
-        return queue.iterator().hasNext();
+        return queue.size() > 0;
     }
 
     @Override
     public T next() {
-        if (queue.iterator().hasNext()) return queue.poll();
+        if (hasNext()) {
+            T val = queue.poll();
+            if (last.containsKey(val)) {
+                if (last.get(val).hasNext()) {
+                    Iterator<T> it = last.remove(val);
+                    T next = it.next();
+                    queue.add(next);
+                    last.put(next, it);
+                }
+            } else {
+                fillFromAll();
+            }
+            return val;
+        }
         throw new NoSuchElementException();
+    }
+
+    private void fillFromAll() {
+        for (Iterator<T> it : all) {
+            if (it.hasNext()) {
+                T val = it.next();
+                queue.add(val);
+                last.put(val, it);
+            }
+        }
     }
 }
