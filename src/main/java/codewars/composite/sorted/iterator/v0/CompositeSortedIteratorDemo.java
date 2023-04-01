@@ -1,4 +1,4 @@
-package codewars.composite.sorted.iterator;
+package codewars.composite.sorted.iterator.v0;
 
 import java.util.*;
 
