@@ -1,8 +1,6 @@
 package codewars.composite.sorted.iterator;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 //todo не решено
 
@@ -28,45 +26,26 @@ public class CompositeSortedIteratorDemo {
 
 
 class CompositeSortedIterator<T> implements Iterator<T> {
-    private final Comparator<? super T> cmp;
     private final Iterator<T>[] all;
-    private final T[] val;
-
+    private final Queue<T> queue;
 
     @SafeVarargs
     public CompositeSortedIterator(Comparator<? super T> cmp, Iterator<T>... iterators) {
-        this.cmp = cmp;
         this.all = iterators;
-        this.val = (T[]) new Object[iterators.length];
+        this.queue = new PriorityQueue<>(cmp);
     }
 
     @Override
     public boolean hasNext() {
-        for (int j = 0; j < all.length; j++) {
-            if (val[j] != null || all[j].hasNext()) return true;
+        for (Iterator<T> it : all) {
+            if (it.hasNext()) queue.add(it.next());
         }
-        return false;
+        return queue.iterator().hasNext();
     }
 
     @Override
     public T next() {
-        int min = -1;
-        for (int j = 0; j < all.length; j++) {
-            if (val[j] == null && all[j].hasNext()) {
-                val[j] = all[j].next();
-            }
-            if (val[j] != null) {
-                if (min >= 0) {
-                    min = cmp.compare(val[j], val[min]) < 0 ? j : min;
-                } else {
-                    min = j;
-                }
-            }
-        }
-        if (min < 0) throw new NoSuchElementException();
-        T v = val[min];
-        if (all[min].hasNext()) val[min] = all[min].next();
-        else val[min] = null;
-        return v;
+        if (queue.iterator().hasNext()) return queue.poll();
+        throw new NoSuchElementException();
     }
 }
