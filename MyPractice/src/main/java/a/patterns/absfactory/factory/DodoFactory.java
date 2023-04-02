@@ -16,7 +16,7 @@ public class DodoFactory implements BakeryFactory {
         return new Bread() {
             @Override
             public String getName() {
-                return "Хлеб 'ДоДо'";
+                return super.getName() + " 'ДоДо'";
             }
         };
     }
@@ -30,7 +30,7 @@ public class DodoFactory implements BakeryFactory {
         return new Cookie() {
             @Override
             public String getName() {
-                return "Печенье 'ДоДо'";
+                return super.getName() + " 'ДоДо'";
             }
         };
     }

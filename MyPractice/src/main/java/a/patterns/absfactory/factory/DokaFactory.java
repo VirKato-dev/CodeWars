@@ -16,7 +16,7 @@ public class DokaFactory implements BakeryFactory {
         return new Bread() {
             @Override
             public String getName() {
-                return "Хлеб 'Дока'";
+                return super.getName() + " 'Дока'";
             }
         };
     }
@@ -30,7 +30,7 @@ public class DokaFactory implements BakeryFactory {
         return new Cookie() {
             @Override
             public String getName() {
-                return "Печенье 'Дока'";
+                return super.getName() + " 'Дока'";
             }
         };
     }
