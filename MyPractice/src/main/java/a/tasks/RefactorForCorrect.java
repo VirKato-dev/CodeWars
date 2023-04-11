@@ -3,7 +3,7 @@ package a.tasks;
 import java.util.Arrays;
 import java.util.StringJoiner;
 
-public class Test4 {
+public class RefactorForCorrect {
     public static void main(String[] args) {
 
     }

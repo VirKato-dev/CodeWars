@@ -18,6 +18,7 @@ public class StreamExample {
         System.out.println();
         long c = IntStream.generate(StreamExample::gen).limit(100).peek(System.out::print).count();
         System.out.println("\n(" + c + ")");
+        System.out.println("Сумма 1 и 2 = " + IntStream.rangeClosed(1, 2).sum());
 
         Stream<String> stream = Stream.of("ab", "cde", "fgh", "ijkl");
         List<String> str = stream.flatMap(s -> s.chars().mapToObj(Character::toString)).toList();

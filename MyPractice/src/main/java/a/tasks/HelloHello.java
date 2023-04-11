@@ -1,6 +1,6 @@
 package a.tasks;
 
-public class Test2 {
+public class HelloHello {
     static String str = "Hello";
 
     public static void change(String s) {

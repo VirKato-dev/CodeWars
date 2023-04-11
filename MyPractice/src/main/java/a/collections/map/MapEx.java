@@ -10,5 +10,9 @@ public class MapEx {
         map.put(0, "test2");
         System.out.println(map.get(null));
         System.out.println(map.get(0));
+
+        for (Map.Entry<Integer, String> entry : map.entrySet()) {
+
+        }
     }
 }

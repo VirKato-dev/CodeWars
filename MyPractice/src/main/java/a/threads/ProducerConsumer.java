@@ -27,7 +27,7 @@ import java.util.List;
  *
  * Шаблону producer/consumer посвящена глава 5.3 книги Java Concurrency in Practice.
  *
- * Сильно упрощая, на основе этого паттерна работают сервисы-брокеры сообщений: Rabbit MQ, Apache ActiveMQ и другие
+ * Сильно упрощая, на основе этого паттерна работают сервисы-брокеры сообщений: RabbitMQ, Apache ActiveMQ и другие
  */
 public class ProducerConsumer<T> {
     private static final int BUFFER_MAX_SIZE = 42;

@@ -15,7 +15,7 @@ package a.tasks;
  * Поэтому первые две строки отработают как ожидается.
  * Третья строка успешно пройдет компиляцию, т. к. null-объект явно преобразовывается в строку со значением «null».
  */
-public class WithNull {
+public class ConcatWithNull {
     public static void main(String[] args) {
         String nullString = null;
         System.out.print(null + nullString);

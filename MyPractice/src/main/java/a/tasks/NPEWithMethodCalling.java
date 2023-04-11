@@ -1,6 +1,6 @@
 package a.tasks;
 
-public class Test3 {
+public class NPEWithMethodCalling {
     class A {
         String str = "ab";
 
@@ -29,6 +29,6 @@ public class Test3 {
 
 
     public static void main(String[] args) {
-        new Test3().new B();
+        new NPEWithMethodCalling().new B();
     }
 }
