@@ -1,18 +1,22 @@
 package a.tasks;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Дан массив из 0 и 1. Надо вывести максимальную последовательность 1 в этом массиве,
  * при условии, что она может быть разделена только одним 0.
  * Пример вывода: 1,0,1,1,1,0,0,1,1,1 -> 4.
  */
-public class Test5 {
+public class MaxChainOfOnes {
     public static void main(String[] args) {
-        System.out.println("4 == " + findMaxOnes3(new int[]{1, 0, 1, 1, 1, 0, 0, 1, 1, 1}));
-        System.out.println("6 == " + findMaxOnes3(new int[]{1, 0, 0, 1, 1, 1, 0, 1, 1, 1}));
+        System.out.println("4 == " + findMaxOnes2(new int[]{1, 0, 1, 1, 1, 0, 0, 1, 1, 1}));
+        System.out.println("6 == " + findMaxOnes2(new int[]{1, 0, 0, 1, 1, 1, 0, 1, 1, 1}));
+        System.out.println("5 == " + findMaxOnes2(new int[]{0, 1, 0, 1, 1, 1, 0, 1, 1, 0}));
     }
 
 
@@ -42,44 +46,29 @@ public class Test5 {
         int count = 0;
         int maxCount = 0;
         boolean zeroFound = false;
-
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == 1) {
+        for (int j : arr) {
+            if (j == 1) {
                 count++;
             } else if (!zeroFound) {
                 zeroFound = true;
-                count++;
             } else {
                 maxCount = Math.max(maxCount, count);
                 count = 0;
-                i--;
                 zeroFound = false;
             }
         }
-
         return Math.max(maxCount, count);
     }
 
 
     private static int findMaxOnes3(int[] arr) {
-        int count = 0;
-        int maxCount = 0;
-        boolean zeroFound = false;
-
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] == 1) {
-                count++;
-            } else if (!zeroFound) {
-                zeroFound = true;
-                count++;
-            } else {
-                maxCount = Math.max(maxCount, count);
-                count = 0;
-                i--;
-                zeroFound = false;
-            }
+        int res = 0;
+        String str = Arrays.toString(arr).replaceAll("\\D", "");
+        Pattern pattern = Pattern.compile("((1+01+)|(1+))");
+        Matcher matcher = pattern.matcher(str);
+        while (matcher.find()) {
+            res = Math.max(matcher.group().replaceAll("0", "").length(), res);
         }
-
-        return Math.max(maxCount, count);
+        return res;
     }
 }
