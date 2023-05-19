@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
@@ -13,8 +13,54 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="bba770bc-c5b9-4657-ab97-2cc31b5160cb">
-      <console name="Connection" type="STANDARD" schema="postgres" session="Main"><![CDATA[create schema virkato;
-create table if not exists virkato.test(test_id int primary key, test_name varchar(30));]]></console>
+      <console name="Connection" type="STANDARD" schema="virkato" session="Main"><![CDATA[create schema virkato;
+create table if not exists virkato.test(test_id int primary key, test_name varchar(30));
+
+
+create table if not exists category (_id int, _name varchar(25));
+insert into category values
+(1,'Сладости'),
+(2,'Мясо'),
+(3,'Молочные продукты');
+select * from category;
+
+create table if not exists products (_id int, _category_id int, _price int, _name varchar(25));
+insert into products values
+(1, 1, 50, 'Печенье'),
+(2, 1, 70, 'Мармелад'),
+(3, 1, 150, 'Конфеты'),
+(4, 2, 150, 'Куриная грудка'),
+(5, 2, 400, 'Свинина'),
+(6, 3, 100, 'Молоко'),
+(7, 3, 120, 'Кефир');
+select * from products;
+
+-- найти количество товаров, в той же категории, что и 'Конфеты', которые дешевле 100 рублей
+select count(p._category_id) as count
+from products as p
+where p._category_id = (select _category_id from products where _name = 'Конфеты')
+    and _price < 100;
+
+select count(*) 
+from products as p1
+    join products p2 using (_category_id)
+where p2._name='Конфеты' and p1._price<100;
+
+
+
+
+create table if not exists t (id int);
+insert into t values (1),(2),(4),(5),(6),(9);
+select * from t;
+
+
+SELECT  (t1.id + 1) id_from,
+        (MIN(t2.id) - 1) id_to
+FROM t t1
+    LEFT JOIN t t2 ON t2.id > t1.id
+WHERE t2.id IS NOT NULL
+GROUP BY t1.id
+HAVING (MIN(t2.id) - 1) > (t1.id + 1);]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -24,6 +70,8 @@ create table if not exists virkato.test(test_id int primary key, test_name varch
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="bba770bc-c5b9-4657-ab97-2cc31b5160cb" dataset="virkato.nums" active-filter-id="" />
+    <filter-actions connection-id="bba770bc-c5b9-4657-ab97-2cc31b5160cb" dataset="virkato.category" active-filter-id="" />
     <filter-actions connection-id="bba770bc-c5b9-4657-ab97-2cc31b5160cb" dataset="virkato.test" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
@@ -41,7 +89,7 @@ create table if not exists virkato.test(test_id int primary key, test_name varch
           <description value="" />
           <database-type value="POSTGRES" />
           <config-type value="BASIC" />
-          <database-version value="15.1" />
+          <database-version value="15.2" />
           <driver-source value="BUILTIN" />
           <driver-library value="" />
           <driver value="" />
@@ -54,7 +102,7 @@ create table if not exists virkato.test(test_id int primary key, test_name varch
           <deprecated-pwd value="cG9zdGdyZXM=" />
         </database>
         <properties>
-          <auto-commit value="false" />
+          <auto-commit value="true" />
         </properties>
         <ssh-settings>
           <active value="false" />

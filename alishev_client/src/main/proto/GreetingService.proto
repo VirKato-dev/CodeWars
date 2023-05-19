@@ -1,0 +1,25 @@
+syntax = "proto3";
+package com.example.alishev;
+
+// метод
+service GreetingService {
+  rpc greeting(HelloRequest) returns (stream HelloResponse); // потоковая передача
+//  rpc greeting(stream HelloRequest) returns (stream HelloResponse); // двунаправленная потоковая передача
+//  rpc greeting(HelloRequest) returns (HelloResponse); // одиночная передача
+}
+
+// запрос
+message HelloRequest {
+
+  string name = 1; // 1 - это тег обозначающий поле name при передаче данных
+
+  repeated string hobbies = 2; // список хобби
+
+}
+
+// ответ
+message HelloResponse {
+
+  string greeting = 1;
+
+}

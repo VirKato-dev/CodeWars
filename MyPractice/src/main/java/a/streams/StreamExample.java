@@ -1,9 +1,8 @@
 package a.streams;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -11,7 +10,28 @@ import java.util.stream.Stream;
 
 public class StreamExample {
 
+    public static final Collector<Integer, ?, List<Integer>> LIST = Collectors.toList();
+
     public static void main(String[] args) {
+        IntStream.rangeClosed(1,100).filter(x -> x %2 == 0 && x % 4 != 0).forEach(System.out::println);
+
+        String[] websites0 = new String[1000];
+        Stream.generate(() -> "codewars")
+                .limit(1000).toList()
+                .toArray(websites0);
+        System.out.println(Arrays.toString(websites0));
+
+        String[] websites = Stream.generate(() -> "codewars")
+                .limit(1000).toList()
+                .toArray(String[]::new);
+        System.out.println(Arrays.toString(websites));
+
+        String[] websites2 = new String[1000];
+        Arrays.fill(websites2, "codewars");
+        System.out.println(Arrays.toString(websites2));
+
+        System.out.println(Arrays.toString(Collections.nCopies(1000, "codewars").toArray(new String[0])));
+
         IntStream.iterate(10, x -> x + 5).limit(5).forEach(System.out::print);
         System.out.println();
         IntStream.generate(StreamExample::gen).skip(3).limit(5).forEach(System.out::print);
@@ -35,9 +55,12 @@ public class StreamExample {
                 .peek(StreamExample::handleVar1)
                 .filter(i -> i % 2 == 0) // нечётные числа выпадают из потока
                 .peek(StreamExample::handleVar2)
-                .collect(Collectors.toList()) // при count() - если убрать filter, то peek не отработают
+                .collect(LIST) // при count() - если убрать filter, то peek не отработают
         );
 
+        Optional<Long> num = Optional.of(65535L);
+        String tNum = num.map(Long::toHexString).get();
+        System.out.println(tNum);
     }
 
     private static void handleVar1(Integer n) {

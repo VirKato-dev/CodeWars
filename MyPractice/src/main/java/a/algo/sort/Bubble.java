@@ -10,6 +10,7 @@ public class Bubble {
         int[] arr = {64, 42, 73, 41, 32, 53, 16, 24, 57, 42, 74, 55, 36};
         System.out.println(Arrays.toString(arr));
         bubbleSort(arr);
+        System.out.println(Arrays.toString(arr));
     }
 
     public static void bubbleSort(int[] array) {

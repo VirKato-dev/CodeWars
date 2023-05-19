@@ -1,5 +1,7 @@
 package a;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class PrimitivePool {
     public static void main(String[] args) {
         String str = "Ja" + "va"; // str == "Java" = true

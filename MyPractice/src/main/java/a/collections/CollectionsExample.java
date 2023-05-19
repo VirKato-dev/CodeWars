@@ -64,5 +64,7 @@ public class CollectionsExample {
 
         CopyOnWriteArrayList<String> cowal = new CopyOnWriteArrayList<>();
         ConcurrentMap<String, String> cMap = new ConcurrentHashMap<>();
+
+        List<String> l1 = Collections.unmodifiableList(List.of("1", "2"));
     }
 }

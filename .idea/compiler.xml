@@ -2,16 +2,13 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-      </profile>
-      <profile name="Annotation profile for AllJavaCode" enabled="true">
-        <sourceOutputDir name="../target/generated-sources/annotations" />
-        <sourceTestOutputDir name="../target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
         <module name="stepik" />
+        <module name="alishev" />
         <module name="MyPractice" />
         <module name="Parse" />
         <module name="CodeWars" />
@@ -19,12 +16,10 @@
         <module name="Yandex" />
         <module name="dmdev" />
         <module name="leetcode" />
+        <module name="alishev_client" />
         <module name="javarush" />
         <module name="interview-middle" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="RTech" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>
