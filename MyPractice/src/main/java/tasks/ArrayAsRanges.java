@@ -4,11 +4,11 @@ import java.util.Arrays;
 
 public class ArrayAsRanges {
     public static void main(String[] args) {
-        System.out.println(toRanges(new int[]{1, 4, 5, 2, 3, 9, 8, 11, 0}));
-        System.out.println(toRanges(new int[]{1, 4, 3, 2}));
-        System.out.println(toRanges(new int[]{1, 4}));
-        System.out.println(toRanges(new int[]{1, 4, 9}));
-        System.out.println(toRanges(new int[]{-10, 4, 9, -9, -8}));
+        System.out.println(toRanges(new int[]{1, 4, 5, 2, 3, 9, 8, 11, 0})); // 0-5,8-9,11
+        System.out.println(toRanges(new int[]{1, 4, 3, 2})); // 1
+        System.out.println(toRanges(new int[]{1, 4})); // 1,4
+        System.out.println(toRanges(new int[]{1, 4, 9})); // 1,4,9
+        System.out.println(toRanges(new int[]{-10, 4, 9, -9, -8})); // -10--8,4,9
     }
 
     private static String toRanges(int[] arr) {

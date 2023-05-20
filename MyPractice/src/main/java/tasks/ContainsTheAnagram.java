@@ -1,16 +1,14 @@
 package tasks;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 public class ContainsTheAnagram {
     public static void main(String[] args) {
-        System.out.println(check("asdfghjkl", "hgfdj"));
-        System.out.println(check("asdfghjkl", "plm"));
-        System.out.println(check("asdfghjkl", ""));
-        System.out.println(check("", "acb"));
+        System.out.println(check("asdfghjkl", "hgfdj")); // true
+        System.out.println(check("asdfghjkl", "plm"));   // false
+        System.out.println(check("asdfghjkl", ""));      // true
+        System.out.println(check("", "acb"));            // false
     }
 
     /**
