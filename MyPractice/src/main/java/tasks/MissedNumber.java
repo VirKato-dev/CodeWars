@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class MissedNumber {
 
     public static void main(String[] args) {
-        int[] arr = {1, 4, 3, 2};
+        int[] arr = {1, 5, 3, 2};
         System.out.println(findMissedNumber(arr)); // ответ 0
     }
 

@@ -7,7 +7,8 @@ import java.util.Stack;
 
 public class Brackets {
     public static void main(String[] args) {
-        System.out.println(check("[()]"));
+        System.out.println(check2("[()]"));
+        System.out.println(check3(")("));
     }
 
 
@@ -40,5 +41,18 @@ public class Brackets {
             else if (stack.isEmpty() || stack.pop() != c) return false;
         }
         return stack.isEmpty();
+    }
+
+
+    static boolean check3(String s) {
+        int count = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '(') count++;
+            else if (c == ')') {
+                count--;
+                if (count < 0) return false;
+            }
+        }
+        return count == 0;
     }
 }

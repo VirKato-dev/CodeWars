@@ -21,6 +21,7 @@
         <module>CodeWars</module>
         <module>alishev</module>
         <module>alishev_client</module>
+        <module>Tinkoff</module>
     </modules>
 
     <properties>

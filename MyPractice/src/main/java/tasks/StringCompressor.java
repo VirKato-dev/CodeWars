@@ -3,8 +3,8 @@ package tasks;
 public class StringCompressor {
 
     public static void main(String[] args) {
-        System.out.println(compressString("aaabbcaa") + " == a3b2ca2");
-    }
+            System.out.println(compressString("aaabbcaa") + " == a3b2ca2");
+        }
 
 
     private static String compressString(String text) {

@@ -14,15 +14,17 @@ public class Problem28FindIndexFirstOccurrenceString {
 
     static class SolutionMy {
         public int strStr(String haystack, String needle) {
-            int position = 0;
-            if (haystack.length() >= needle.length()) {
-                StringBuilder sb = new StringBuilder(haystack.substring(0, needle.length()));
-                while (position + needle.length() <= haystack.length()) {
-                    if (sb.toString().equals(needle)) return position;
-                    if (position + needle.length() >= haystack.length()) break;
+            int pos = 0;
+            int h = haystack.length();
+            int n = needle.length();
+            if (haystack.length() >= n) {
+                StringBuilder sb = new StringBuilder(haystack.substring(0, n));
+                while (pos + n <= h) {
+                    if (sb.toString().equals(needle)) return pos;
+                    if (pos + n >= h) return -1;
                     sb.deleteCharAt(0);
-                    sb.append(haystack.charAt(position + needle.length()));
-                    position++;
+                    sb.append(haystack.charAt(pos + n));
+                    pos++;
                 }
             }
             return -1;
