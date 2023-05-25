@@ -11,16 +11,17 @@ import java.util.Stack;
 public class FindBracketToReplace {
 
     public static void main(String[] args) {
-        System.out.println(findBracketToReplace2("))")); // 0 - ожидалось 0
-        System.out.println(findBracketToReplace2("((")); // 1 - ожидалось 1
-        System.out.println(findBracketToReplace2(")(")); // -1 - ожидалось -1
-        System.out.println(findBracketToReplace2(")")); // -1 - ожидалось -1
-        System.out.println(findBracketToReplace2("(")); // -1 - ожидалось -1
-        System.out.println(findBracketToReplace2("()((")); // 3 - ожидалось 3
+        System.out.println(findBracketToReplace("))")); // 0 - ожидалось 0
+        System.out.println(findBracketToReplace("((")); // 1 - ожидалось 1
+        System.out.println(findBracketToReplace(")(")); // -1 - ожидалось -1
+        System.out.println(findBracketToReplace(")")); // -1 - ожидалось -1
+        System.out.println(findBracketToReplace("((((")); // -1 - ожидалось -1
+        System.out.println(findBracketToReplace("))))")); // -1 - ожидалось -1
+        System.out.println(findBracketToReplace("))()")); // 0 - ожидалось 0
     }
 
 
-    public static int findBracketToReplace(String s) {
+    public static int findBracketToReplace2(String s) {
         Stack<Integer> stack = new Stack<>();
         int wrong = -1;
         for (int i = 0; i < s.length(); i++) {
@@ -59,35 +60,38 @@ public class FindBracketToReplace {
     }
 
 
-    public static int findBracketToReplace2(String s) {
+    public static int findBracketToReplace(String s) {
         Stack<Integer> stack = new Stack<>();
         int len = s.length();
-        if (len % 2 != 0) return -1;
+        boolean hasOpen = false;
         int wrong = -1;
+
+        if (len % 2 != 0) return wrong; // odd
 
         for (int i = 0; i < len; i++) {
             char c = s.charAt(i);
             if (c == '(') {
+                hasOpen = true;
                 stack.push(i);
             } else if (c == ')') {
-                if (!stack.isEmpty()) {
-                    stack.pop();
-                } else {
+                if (stack.isEmpty()) { // first missed (
                     wrong = wrong < 0 ? i : wrong;
+                } else {
+                    stack.pop();
                 }
             }
         }
 
-        if (stack.isEmpty()) {
-            if (wrong >= 0) return wrong;
-        } else {
-            if (wrong >= 0) return -1;
-            int ri = stack.pop();
-            if (s.charAt(ri) == '(') {
-                return ri;
+        if (!stack.isEmpty()) {
+            if (wrong >= 0 || stack.size() > 2) {
+                wrong = -1; // many
+            } else {
+                wrong = stack.pop(); // replace to )
             }
+        } else {
+            if (!hasOpen && len > 2) wrong = -1; // has ) only
         }
-        return -1;
+        return wrong; // replace to ( or -1
     }
 
 }
