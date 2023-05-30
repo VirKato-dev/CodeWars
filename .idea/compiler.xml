@@ -7,15 +7,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="stepik" />
         <module name="alishev" />
+        <module name="stepik" />
         <module name="MyPractice" />
         <module name="Tinkoff" />
         <module name="Parse" />
         <module name="CodeWars" />
         <module name="VkApi" />
-        <module name="leetcode" />
         <module name="alishev_client" />
+        <module name="leetcode" />
         <module name="interview-middle" />
         <module name="Yandex" />
         <module name="dmdev" />

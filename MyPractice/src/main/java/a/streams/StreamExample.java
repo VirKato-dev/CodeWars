@@ -10,10 +10,30 @@ import java.util.stream.Stream;
 
 public class StreamExample {
 
+    record Group(String name, String description) {
+    }
+
+    record User(String username, Integer age, List<StreamExample.Group> groups) {
+    }
+
+    public List<User> consume(List<User> users) {
+        // Фильтруем список пользователей
+        return users.stream()
+                // Для каждого пользователя проверяем список групп
+                .filter(user -> user.groups().stream()
+                        // Если хотя бы одно имя группы начинается на "X", включаем пользователя в итоговый список
+                        .anyMatch(group -> group.name().startsWith("X"))
+                )
+                // Собираем результат в список
+                .collect(Collectors.toList());
+    }
+
+
     public static final Collector<Integer, ?, List<Integer>> LIST = Collectors.toList();
 
+
     public static void main(String[] args) {
-        IntStream.rangeClosed(1,100).filter(x -> x %2 == 0 && x % 4 != 0).forEach(System.out::println);
+        IntStream.rangeClosed(1, 100).filter(x -> x % 2 == 0 && x % 4 != 0).forEach(System.out::println);
 
         String[] websites0 = new String[1000];
         Stream.generate(() -> "codewars")
