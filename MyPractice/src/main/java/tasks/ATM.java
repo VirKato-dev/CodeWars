@@ -12,7 +12,7 @@ import java.util.TreeMap;
  * Допустимые номиналы: 50₽, 100₽, 500₽, 1000₽, 5000₽.
  */
 public class ATM {
-    private final TreeMap<Integer, Integer> banknotes = new TreeMap<>(Collections.reverseOrder());
+    private TreeMap<Integer, Integer> banknotes = new TreeMap<>(Collections.reverseOrder());
 
 
     public ATM(int... values) {
@@ -24,8 +24,9 @@ public class ATM {
 
     public void withDraw(int amount) {
         if (amount == 0) {
-            throw new IllegalArgumentException("Не такой суммы " + amount);
+            throw new IllegalArgumentException("Нечего выдавать");
         }
+        System.out.println("Выдать: " + amount);
 
         // снепшот купюр банкомата
         Map<Integer, Integer> snapshot = new HashMap<>(banknotes);
@@ -41,9 +42,8 @@ public class ATM {
         }
 
         if (amount > 0) {
-            System.out.println("Ошибка выдачи");
-            banknotes.clear(); // откат
-            banknotes.putAll(snapshot);
+            System.out.println("Не удаётся выдать ещё: " + amount);
+            banknotes = new TreeMap<>(snapshot); // откат
         } else {
             System.out.println("Выдано: " + withdrawal);
         }
@@ -51,9 +51,10 @@ public class ATM {
 
 
     public static void main(String[] args) {
-        int[] cash = {50, 100, 500, 1000, 5000};
+        int[] cash = {50, 100, 500, 1000, 5000, 5000};
         ATM atm = new ATM(cash);
         atm.withDraw(10000);
-        atm.withDraw(5000);
+        atm.withDraw(6000);
+        atm.withDraw(50);
     }
 }

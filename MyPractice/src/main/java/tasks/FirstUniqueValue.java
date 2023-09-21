@@ -1,6 +1,8 @@
 package tasks;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FirstUniqueValue {
     public static void main(String[] args) {
@@ -11,8 +13,11 @@ public class FirstUniqueValue {
 
     private static Integer find(int[] arr) {
         Map<Integer, Integer> map = new HashMap<>();
-        for (int x : arr) map.merge(x, 1, Integer::sum);
-        for (int x : arr) if (map.get(x) == 1) return x;
+        for (int x : arr)
+            map.merge(x, 1, Integer::sum);
+        for (int x : arr)
+            if (map.get(x) == 1)
+                return x;
         return null;
     }
 
