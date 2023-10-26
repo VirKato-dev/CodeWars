@@ -22,6 +22,7 @@
         <module>alishev</module>
         <module>alishev_client</module>
         <module>Tinkoff</module>
+        <module>YandexCup</module>
     </modules>
 
     <properties>

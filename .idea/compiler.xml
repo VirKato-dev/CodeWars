@@ -19,8 +19,12 @@
         <module name="interview-middle" />
         <module name="Yandex" />
         <module name="dmdev" />
+        <module name="YandexCup" />
         <module name="javarush" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="AllJavaCode" target="16" />
+    </bytecodeTargetLevel>
   </component>
 </project>

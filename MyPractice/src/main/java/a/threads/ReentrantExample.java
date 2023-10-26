@@ -12,7 +12,7 @@ public class ReentrantExample {
     private static final Lock lock = new ReentrantLock();
     private static final ExecutorService executorService = Executors.newFixedThreadPool(2);
     private static final Callable<String> callable1 = () -> {
-        Thread.sleep(100);
+        Thread.sleep(500);
         return "call1";
     };
     private static final Callable<String> callable2 = () -> "call2";
