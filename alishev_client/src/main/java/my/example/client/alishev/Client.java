@@ -1,7 +1,7 @@
 package my.example.client.alishev;
 
-import com.example.alishev.GreetingServiceGrpc;
-import com.example.alishev.GreetingServiceOuterClass;
+import my.exaple.alishev.GreetingServiceGrpc;
+import my.exaple.alishev.GreetingServiceOuterClass;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
