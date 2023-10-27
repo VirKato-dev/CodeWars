@@ -10,11 +10,11 @@ public class ArraysMaxNumFromTwo {
     private static int[] arr2 = {2, 2, 3, 4};
 
     public static void main(String[] args) {
-        System.out.println(findMaxFromRepeated());
-        System.out.println(findMaxFromRepeated2());
+        System.out.println(findMaxFromRepeating());
+        System.out.println(findMaxFromRepeating2());
     }
 
-    private static int findMaxFromRepeated() {
+    private static int findMaxFromRepeating() {
         int max = Integer.MIN_VALUE;
         Set<Integer> unique = new HashSet<>();
         // по 2-м массивам сразу идём без создания общего
@@ -34,7 +34,7 @@ public class ArraysMaxNumFromTwo {
         return max;
     }
 
-    private static int findMaxFromRepeated2() {
+    private static int findMaxFromRepeating2() {
         PriorityQueue<Integer> queue = new PriorityQueue<>(Comparator.reverseOrder());
         Set<Integer> set = new HashSet<>();
         // по 2-м массивам сразу идём без создания общего
@@ -52,5 +52,36 @@ public class ArraysMaxNumFromTwo {
             }
         }
         return queue.poll();
+    }
+
+    /**
+     * Если массивы отсортированы по возрастанию.
+     *
+     * @return максимально из повторяющихся либо -1 при отсутствии повторяющихся
+     */
+    private static int findMaxFromRepeating3() {
+        // O(n/2) = O(n)
+        // в лучшем случае число найдётся на первой итерации
+        Set<Integer> set = new HashSet<>();
+        PriorityQueue<Integer> queue = new PriorityQueue<>(Comparator.reverseOrder());
+        int len1 = arr1.length, len2 = arr2.length;
+        int maxLength = Math.max(len1, len2);
+        // по двум массивам одновременно
+        for (int j = 0; j < maxLength; j++) {
+            if (len1 - 1 - j >= 0) { // пока массив не закончился
+                if (!set.add(arr1[len1 - 1 - j])) {
+                    queue.add(arr1[len1 - 1 - j]);
+                }
+            }
+            if (len2 - 1 - j >= 0) { // пока массив не закончился
+                if (!set.add(arr2[len2 - 1 - j])) {
+                    queue.add(arr2[len2 - 1 - j]);
+                }
+            }
+            if (!queue.isEmpty()) { // первое же повторяющееся число является максимальным
+                return queue.poll();
+            }
+        }
+        return -1;
     }
 }
