@@ -50,7 +50,7 @@ public class MergeTwo {
     }
 
     private static int[] merge3(int[] a1, int[] a2) {
-        int idx1 = 0, idx2 = 0, idx3 = 0;
+        int idx1 = 0, idx2 = 0;
         int[] a3 = new int[a1.length + a2.length];
         for (int j = 0; j < a1.length + a2.length; j++) {
 
@@ -64,12 +64,10 @@ public class MergeTwo {
             }
 
             if (comp < 0) {
-                a3[idx3] = a1[idx1++];
+                a3[j] = a1[idx1++];
             } else {
-                a3[idx3] = a2[idx2++];
+                a3[j] = a2[idx2++];
             }
-
-            idx3++;
         }
         return a3;
     }
