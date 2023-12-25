@@ -8,28 +8,24 @@
     <artifactId>AllJavaCode</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <modules>
-        <module>stepik</module>
-        <module>dmdev</module>
-        <module>javarush</module>
-        <module>MyPractice</module>
-        <module>Parse</module>
-        <module>VkApi</module>
-        <module>leetcode</module>
-        <module>Yandex</module>
-        <module>RTech</module>
         <module>CodeWars</module>
+        <module>MyPractice</module>
+        <module>advent2023</module>
         <module>alishev</module>
         <module>alishev_client</module>
+        <module>dmdev</module>
+        <module>javarush</module>
+        <module>leetcode</module>
+        <module>Parse</module>
+        <module>RTech</module>
+        <module>stepik</module>
         <module>Tinkoff</module>
+        <module>VkApi</module>
+        <module>Yandex</module>
         <module>YandexCup</module>
     </modules>
-
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -100,30 +96,12 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>16</source>
-                    <target>16</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.10</version>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <!-- select non-aggregate reports -->
-                            <report>report</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-        </plugins>
-    </reporting>
 
     <!-- настройка соединения с локальным maven репозиторием поднятом на Docker -->
     <distributionManagement>
