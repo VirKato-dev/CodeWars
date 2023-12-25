@@ -7,19 +7,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="alishev" />
         <module name="stepik" />
+        <module name="alishev" />
         <module name="MyPractice" />
         <module name="Tinkoff" />
         <module name="Parse" />
         <module name="CodeWars" />
         <module name="VkApi" />
+        <module name="advent2023" />
         <module name="alishev_client" />
         <module name="leetcode" />
         <module name="interview-middle" />
-        <module name="Yandex" />
-        <module name="dmdev" />
         <module name="YandexCup" />
+        <module name="dmdev" />
+        <module name="Yandex" />
         <module name="javarush" />
       </profile>
     </annotationProcessing>
