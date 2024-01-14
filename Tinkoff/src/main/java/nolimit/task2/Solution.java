@@ -48,22 +48,71 @@ public class Solution {
 
     public static void main(String[] args) {
 //        Scanner in = new Scanner(System.in);
-        Scanner in = new Scanner("9");
-        System.out.println(option2(in.nextInt()));
+        Scanner in = new Scanner("5"); // 4
+        System.out.println(option5(in.nextInt()));
     }
 
-    private static int option1(int parts) {
+    private static int option1(int parts) { // 0.127 // 0.094
         // при нечётном режем от середины на одну дольку больше
         int step = 0;
         while (parts > 1) {
             step++;
-            parts = parts / 2 + parts % 2;
+//            parts = parts / 2 + parts % 2;
+            parts = (parts >> 1) + (parts & 1);
         }
         return step;
     }
 
-    private static int option2(int parts) {
+    private static int option2(int parts) { // 0.120
         // логарифм числа b по основанию a  --  log a b = ln(b) / ln(a)
-        return (int)Math.ceil(Math.log(parts) / Math.log(2));
+        // степень двойки для указанного числа говорит о количестве необходимых разрезов
+        // степень всегда округлять в бОльшую сторону
+        return (int) Math.ceil(Math.log(parts) / Math.log(2));
+    }
+
+    private static int option3(int parts) { // 0.103
+        parts--;
+        int step = 0;
+        while (parts > 0) {
+            step++;
+            parts >>= 1;
+        }
+        return step;
+    }
+
+    private static int option4(int parts) { // 0.077
+        return 32 - Integer.numberOfLeadingZeros(--parts);
+    }
+
+    private static int option5(int parts) { // 0.120
+        --parts;
+        int n;
+        if (parts <= 0) {
+            n = parts == 0 ? 0 : 32;
+        } else {
+            n = 1;
+            if (parts >= 65536) {
+                n += 16;
+                parts >>>= 16;
+            }
+
+            if (parts >= 256) {
+                n += 8;
+                parts >>>= 8;
+            }
+
+            if (parts >= 16) {
+                n += 4;
+                parts >>>= 4;
+            }
+
+            if (parts >= 4) {
+                n += 2;
+                parts >>>= 2;
+            }
+
+            n += (parts >>> 1);
+        }
+        return n;
     }
 }
