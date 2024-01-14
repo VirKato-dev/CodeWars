@@ -30,15 +30,15 @@ public class Solution {
 //        Scanner in = new Scanner(System.in);
 //        Scanner in = new Scanner("5  5\n1  4  9  16  25\n2"); // 24
 //        Scanner in = new Scanner("6  4\n1  2  3  6  8  25\n5"); // 31
-        Scanner in = new Scanner("6  1\n1  2  3  6  8  10\n5"); // 9
+        Scanner in = new Scanner("6  2\n1  2  3  4  5  7\n3"); // 6
 
-        byte n = in.nextByte(); // количество сотрудников
-        byte t = in.nextByte(); // время, через которое уйдёт сотрудник
-        byte[] e = new byte[n]; // номер этажа для каждого сотрудника
+        int n = in.nextInt(); // количество сотрудников
+        int t = in.nextInt(); // время, через которое уйдёт сотрудник
+        int[] e = new int[n]; // номер этажа для каждого сотрудника
         for (int j = 0; j < n; j++) {
-            e[j] = in.nextByte();
+            e[j] = in.nextInt();
         }
-        byte s = in.nextByte(); // уходящий сотрудник
+        int s = in.nextInt(); // уходящий сотрудник
 
         int left = e[s - 1] - 1; // время до этажа уходящего сотрудника (начиная с первого этажа)
         int rite = e[n - 1] - e[s - 1]; // время до этажа уходящего сотрудника (начиная с последнего этажа)

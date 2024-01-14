@@ -48,8 +48,8 @@ public class Solution {
 
     public static void main(String[] args) {
 //        Scanner in = new Scanner(System.in);
-        Scanner in = new Scanner("5"); // 4
-        System.out.println(option5(in.nextInt()));
+        Scanner in = new Scanner("9"); // 4
+        System.out.println(option4(in.nextInt()));
     }
 
     private static int option1(int parts) { // 0.127 // 0.094
