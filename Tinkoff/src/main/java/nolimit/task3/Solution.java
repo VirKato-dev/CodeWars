@@ -28,9 +28,9 @@ import java.util.Scanner;
 public class Solution {
     public static void main(String[] args) {
 //        Scanner in = new Scanner(System.in);
-//        Scanner in = new Scanner("5  5\n1  4  9  16  25\n2"); // 24
-//        Scanner in = new Scanner("6  4\n1  2  3  6  8  25\n5"); // 31
-        Scanner in = new Scanner("6  2\n1  2  3  4  5  7\n3"); // 6
+//        Scanner in = new Scanner("5 5\n 1 4 9 16 25\n 2"); // 24
+        Scanner in = new Scanner("6 4\n 1 2 3 6 8 25\n 5"); // 31
+//        Scanner in = new Scanner("7 2\n 1 2 3 4 5 6 7\n 4"); // 5
 
         int n = in.nextInt(); // количество сотрудников
         int t = in.nextInt(); // время, через которое уйдёт сотрудник
