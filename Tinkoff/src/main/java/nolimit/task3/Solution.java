@@ -35,8 +35,11 @@ public class Solution {
         int n = in.nextInt(); // количество сотрудников
         int t = in.nextInt(); // время, через которое уйдёт сотрудник
         int[] e = new int[n]; // номер этажа для каждого сотрудника
+        int offset = 0; // на случай присутствия отрицательных этажей
         for (int j = 0; j < n; j++) {
             e[j] = in.nextInt();
+            if (offset == 0 && e[j] < 0) offset = Math.abs(e[j]);
+            e[j] += offset;
         }
         int s = in.nextInt(); // уходящий сотрудник
 

@@ -31,7 +31,7 @@ public class Solution {
         long result = 0;
         Queue<Long> queue = new PriorityQueue<>(Comparator.reverseOrder());
         for (int num : arr) {
-            int step = 1;
+            long step = 1;
             while (num > 0) {
                 long tmp = 9 - (num % 10);
                 queue.add(tmp * step);
