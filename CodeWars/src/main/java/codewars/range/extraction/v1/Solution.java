@@ -1,6 +1,6 @@
 package codewars.range.extraction.v1;
 
-class Solution {
+public class Solution {
     public static String rangeExtraction(int[] arr) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < arr.length; i++) {
