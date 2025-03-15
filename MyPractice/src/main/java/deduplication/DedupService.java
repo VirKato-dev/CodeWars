@@ -55,9 +55,9 @@ public class DedupService {
             createTable(conn);
 
             // Дедублицированные
-            insertData(conn, new MdmRelation(0L, null, LocalDate.now().minusMonths(3), null));
-            insertData(conn, new MdmRelation(1L, 2L, LocalDate.now().minusMonths(3), LocalDate.now().minusMonths(2)));
-            insertData(conn, new MdmRelation(2L, null, LocalDate.now().minusMonths(1), null));
+            addMdm(conn, new MdmRelation(0L, null, LocalDate.now().minusMonths(3), null));
+            addMdm(conn, new MdmRelation(1L, 2L, LocalDate.now().minusMonths(3), LocalDate.now().minusMonths(2)));
+            addMdm(conn, new MdmRelation(2L, null, LocalDate.now().minusMonths(1), null));
 
             System.out.println("\nInitialization");
             findAll(conn);
@@ -68,20 +68,20 @@ public class DedupService {
             findAll(conn);
 
             System.out.println("\nBy MDM");
-            findByMdm(conn, 0L);
-            findByMdm(conn, 2L);
+            findById(conn, 0L);
+            findById(conn, 2L);
 
             System.out.println("\nMDM:3 On actual date: " + LocalDate.now());
-            findByMdmOnDate(conn, 3L, LocalDate.now());
+            findOnDate(conn, 3L, LocalDate.now());
 
             System.out.println("\nMDM:2 On actual date: " + LocalDate.now());
-            findByMdmOnDate(conn, 2L, LocalDate.now());
+            findOnDate(conn, 2L, LocalDate.now());
 
             System.out.println("\nMDM:0 On actual date: " + LocalDate.now());
-            findByMdmOnDate(conn, 0L, LocalDate.now());
+            findOnDate(conn, 0L, LocalDate.now());
 
             System.out.println("\nMDM:2 On date in past: " + LocalDate.now().minusMonths(1));
-            findByMdmOnDate(conn, 2L, LocalDate.now().minusMonths(1));
+            findOnDate(conn, 2L, LocalDate.now().minusMonths(1));
 
             System.out.println("\nMDM:2 is dededuplicated.");
             dededup(conn, 2L);
@@ -103,7 +103,7 @@ public class DedupService {
         conn.setAutoCommit(false);
 
         // новый актуальный MDM
-        insertData(conn, new MdmRelation(actual_mdm_id, null, LocalDate.now(), null));
+        addMdm(conn, new MdmRelation(actual_mdm_id, null, LocalDate.now(), null));
 
         // обновить отношение
         var sql1 = "UPDATE " + TABLE + " SET actual_mdm_id = ? " +
@@ -157,7 +157,7 @@ public class DedupService {
      *
      * @param data все колонки таблицы
      */
-    private static void insertData(Connection conn, MdmRelation data) throws SQLException {
+    private static void addMdm(Connection conn, MdmRelation data) throws SQLException {
         var sql = "INSERT INTO " + TABLE + " (mdm_id, actual_mdm_id, start_date, end_date) VALUES (?,?,?,?)";
         var stmt = conn.prepareStatement(sql);
         stmt.setLong(1, data.mdm_id); // required
@@ -183,7 +183,7 @@ public class DedupService {
         }
     }
 
-    private static void findByMdm(Connection conn, Long mdm) throws SQLException {
+    private static void findById(Connection conn, Long mdm) throws SQLException {
         var sql = "SELECT * FROM " + TABLE + " WHERE mdm_id = ?;";
         var stmt = conn.prepareStatement(sql);
         stmt.setLong(1, mdm);
@@ -196,7 +196,7 @@ public class DedupService {
     }
 
 
-    private static void findByMdmOnDate(Connection conn, Long mdm, LocalDate onDate) throws SQLException {
+    private static void findOnDate(Connection conn, Long mdm, LocalDate onDate) throws SQLException {
         var sql = "SELECT * FROM " + TABLE +
                 " WHERE (? IN (mdm_id, actual_mdm_id) " +
                 "OR (SELECT actual_mdm_id FROM " + TABLE + " WHERE mdm_id = ? AND actual_mdm_id IS NOT NULL) IN (actual_mdm_id,mdm_id)" +
