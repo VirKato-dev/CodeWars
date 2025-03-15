@@ -198,13 +198,14 @@ public class DedupService {
 
     private static void findOnDate(Connection conn, Long mdm, LocalDate onDate) throws SQLException {
         var sql = "SELECT * FROM " + TABLE +
-                " WHERE (? IN (mdm_id, actual_mdm_id) " +
+                " WHERE start_date <= ? AND (" +
+                "? IN (mdm_id, actual_mdm_id) " +
                 "OR (SELECT actual_mdm_id FROM " + TABLE + " WHERE mdm_id = ? AND actual_mdm_id IS NOT NULL) IN (actual_mdm_id,mdm_id)" +
-                ") AND start_date <= ?;";
+                ");";
         var stmt = conn.prepareStatement(sql);
-        stmt.setLong(1, mdm);
+        stmt.setObject(1, Date.valueOf(onDate), JDBCType.DATE);
         stmt.setLong(2, mdm);
-        stmt.setObject(3, Date.valueOf(onDate), JDBCType.DATE);
+        stmt.setLong(3, mdm);
 
         var result = stmt.executeQuery();
         showHeader();
