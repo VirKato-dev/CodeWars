@@ -25,6 +25,7 @@
         <module>VkApi</module>
         <module>Yandex</module>
         <module>YandexCup</module>
+        <module>advent2024</module>
     </modules>
 
     <dependencyManagement>

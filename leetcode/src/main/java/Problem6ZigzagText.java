@@ -9,7 +9,7 @@
  * Y   I   R
  * And then read line by line: "PAHNAPLSIIGYIR"
  */
-public class Problem6 {
+public class Problem6ZigzagText {
     public static void main(String[] args) {
         String res;
         assert (res = convert("PAYPALISHIRING", 3)).equals("PAHNAPLSIIGYIR") : "PAYPALISHIRING = " + res;

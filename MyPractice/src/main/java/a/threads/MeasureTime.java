@@ -2,7 +2,9 @@ package a.threads;
 
 import a.algo.sort.Bubble;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -23,14 +25,14 @@ public class MeasureTime {
 
     public static void measureTime(String title, Runnable action) {
         Handler handler = new ConsoleHandler();
-        handler.setLevel(Level.ALL);
+        handler.setLevel(Level.INFO);
 
         new Thread(() -> {
             long begin = System.currentTimeMillis();
             action.run();
             long duration = System.currentTimeMillis() - begin;
-            String message = String.format("%s:%nЗатрачено время: %dms%n", title, duration);
-            handler.publish(new LogRecord(Level.ALL, message));
+            String message = String.format("%s%nЗатрачено время: %dms%n", title, duration);
+            handler.publish(new LogRecord(Level.INFO, message));
             handler.close();
         }).start();
     }

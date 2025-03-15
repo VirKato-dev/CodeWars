@@ -1,0 +1,33 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+API -> Requester: <b>LINK
+Orchestrator --> Requester: <b>LINK
+MapperManager --> Requester: <b>LINK
+
+
+Requester -> MapperManager: <b>ADD mappers\nList<VersionedMapper>
+MapperManager -> MapperManager: <b>GROUPING\nby version, className
+
+
+API -> Requester: <b>GET product\nmdmId, sectionType
+
+Requester -> Orchestrator: <b>GET products\nmdmId, sectionType
+  Orchestrator -> Orchestrator: <b>FIND products
+Orchestrator --> Requester: <b>products\nwith headers
+
+Requester -> Requester: <b>MERGE products
+Requester -> Requester: <b>PARSE headers
+
+Requester -> MapperManager: <b>MAP to DTO\nproduct, version, mapper class name
+
+  MapperManager -> MapperManager: <b>FIND VersionedMapper\nby version and class name
+  MapperManager -> MapperManager: <b>VersionedMapper\n.mapToDTO(product)
+
+MapperManager --> Requester: <b>product\nDTO
+
+
+Requester --> API: <b>product\nDTO
+
+@enduml

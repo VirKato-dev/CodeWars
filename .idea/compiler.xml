@@ -12,6 +12,7 @@
         <module name="MyPractice" />
         <module name="Tinkoff" />
         <module name="Parse" />
+        <module name="advent2024" />
         <module name="CodeWars" />
         <module name="VkApi" />
         <module name="advent2023" />
